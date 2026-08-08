@@ -6,7 +6,7 @@ class Contributions {
     spending_id,
     spending_user,
     user_id,
-    amount
+    amount,
   ) => {
     const CREATE_CONTRIBUTION =
       "INSERT INTO contributions(spending_id, spending_user, user_id, amount) VALUES ($1, $2, $3, $4) RETURNING *";
@@ -24,7 +24,7 @@ class Contributions {
   createManyContributions = async (
     spending_id,
     spending_user,
-    contributions
+    contributions,
   ) => {
     // console.log(contributions);
 
@@ -34,7 +34,7 @@ class Contributions {
         spending_id,
         spending_user,
         contribution.friend_id,
-        contribution.amount
+        contribution.amount,
       );
       newContributions.push(newContribution);
     }
@@ -45,11 +45,11 @@ class Contributions {
   createUnregisteredContribution = async (
     userList,
     spending_id,
-    currUserId
+    currUserId,
   ) => {
     const newUsers = await users.createManyUnregisteredUser(
       userList,
-      currUserId
+      currUserId,
     );
 
     // console.log(newUsers);
@@ -57,7 +57,7 @@ class Contributions {
     const newUnregisteredContributions = await this.createManyContributions(
       spending_id,
       currUserId,
-      newUsers
+      newUsers,
     );
     return newUnregisteredContributions;
   };

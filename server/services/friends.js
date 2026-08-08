@@ -6,7 +6,7 @@ class Friends {
   createUnregisteredFriend = async (userId, friendId) => {
     // CREATE UNREGISTERED FRIEND
     const CREATE_UNREGISTERED_FRIEND =
-      "INSERT INTO friends(user_id, friend_id) VALUES ($1, $2)";
+      "INSERT INTO friends(user_id, friend_id) VALUES ($1, $2) RETURNING *";
 
     const { result, error } = await db.query(CREATE_UNREGISTERED_FRIEND, [
       userId,
@@ -66,7 +66,8 @@ class Friends {
   };
 
   addFriend = async (userId, friendId) => {
-    const ADD_FRIEND = "INSERT INTO friends VALUES ($1, $2), ($2, $1)";
+    const ADD_FRIEND =
+      "INSERT INTO friends VALUES ($1, $2), ($2, $1) RETURNING *";
     const { result, error } = await db.query(ADD_FRIEND, [userId, friendId]);
 
     if (result) return result.rows;
